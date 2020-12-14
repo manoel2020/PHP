@@ -3,13 +3,19 @@ require_once('./conexao/conecta.class.php');
 
 
 function produtos_get($parametros){ 
-    $opcao = '';   
-    if($parametros{'id'}){
-        $opcao = 'Where id_produto='.$parametros{'id'};
+    try
+    { 
+    $opcao = '';      
+    if(isset($parametros[0])){
+        $opcao = 'Where id_produto = :id';
+    }         
+        $stmp = CON::getInstance()->prepare('select * from produto '.$opcao);
+        $stmp->bindParam( ':id', $parametros[0],PDO::PARAM_INT );
+        $stmp->execute();
+        return $stmp->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        echo $e.getMessage();
     }
-    $stmp = CON::getInstance()->prepare('select * from produto '.$opcao);
-    $stmp->execute();
-    return $stmp->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function produtos_set($parametros){
@@ -39,7 +45,7 @@ function produtos_up($parametros){
 function produtos_del($parametros){    
     try{    
         $stmp = CON::getInstance()->prepare('delete from produto where id_produto = :id');
-        $stmp->bindParam(":id",$parametros{'id'});
+        $stmp->bindParam(":id",$parametros{0});
         $stmp->execute();        
     } catch (PDOException $e){
         echo $e.getMessage();

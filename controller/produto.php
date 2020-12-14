@@ -5,7 +5,7 @@ require_once('./model/modelProdutos.php');
 class PRODUTO{
 
     public function mostrar($parametros){
-       $dados =  produtos_get($parametros);        
+        $dados =  produtos_get($parametros);               
         header('Content-Type: application/json; charset=utf-8');      
         echo json_encode(array('status' => 'sucesso', 'dados' => $dados));        
     }

@@ -21,9 +21,8 @@ class Rest{
                     
                     switch ($request_method)
                     {                       
-                        case 'GET': 
-                           parse_str(file_get_contents("php://input"),$post_vars);
-                           $retorno = call_user_func_array(array(new $classe, $metodo), array($post_vars));
+                        case 'GET':                            
+                           $retorno = call_user_func_array(array(new $classe, $metodo), array($parametros));
                         break;
                         case 'POST':
                             parse_str(file_get_contents("php://input"),$post_vars);                                                             
@@ -33,8 +32,7 @@ class Rest{
                             parse_str(file_get_contents("php://input"),$post_vars);                                                       
                             $retorno = call_user_func_array(array(new $classe, $metodo), array($post_vars));
                         break;
-                        case 'DELETE':
-                            parse_str(file_get_contents("php://input"),$parametros);
+                        case 'DELETE':                            
                             $retorno = call_user_func_array(array(new $classe, $metodo), array($parametros));
                         break;
                         default:       
